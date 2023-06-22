@@ -4,8 +4,6 @@ fixture('EPAM Website')
   .page('https://www.epam.com/')
   .beforeEach(async (t) => {
     await t.maximizeWindow();
-    const pageTitle = await t.eval(() => document.title);
-    console.log('Page Title:', pageTitle);
   });
 
 test('Check homepage title', async (t) => {
@@ -27,7 +25,7 @@ test('Check search results for keyword "automation"', async (t) => {
     const searchButton = Selector('.header-search__submit');
   
     await t
-      .skipJsErrors()
+      .skipJsErrors() // Temporary solution. Will look into the possible solution as I'm aware this is not the perfect solution
       .click(searchIcon)
       .typeText(searchInput, 'automation')
       .click(searchButton)
@@ -35,16 +33,12 @@ test('Check search results for keyword "automation"', async (t) => {
       .expect(searchResults.innerText).match(/(\d+) RESULTS FOR "AUTOMATION"/);
   });
 
-test('Check "What are you looking for" field after clicking search icon', async (t) => {
-    const searchInput = Selector('.header-search__input');
+test('Check "What are you looking for" field after clicking the search icon', async (t) => {
     const searchIcon = Selector('.search-icon');
-    const whatAreYouLookingForField = Selector('.header-search__input[placeholder="What are you looking for?"]');
+    const searchFieldPlaceholder = Selector('.header-search__input');
     
     await t
       .click(searchIcon)
-      .expect(whatAreYouLookingForField.exists).ok()
-      .expect(whatAreYouLookingForField.getAttribute('placeholder')).eql('What are you looking for?');
+      .expect(searchFieldPlaceholder.exists).ok()
+      .expect(searchFieldPlaceholder.getAttribute('placeholder')).eql('What are you looking for?');
   });
-  
-
-  
