@@ -1,1 +1,1 @@
-# SQEUIFramework
+# UIFramework exercise
